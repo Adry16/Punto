@@ -1,0 +1,144 @@
+CONEXION.PHP
+<?php
+$hostname='localhost';
+$database='formulario_final';
+$username='root';
+$password='';
+$conexion=new mysqli($hostname,$username,$password,$database);
+if($conexion->connect_errno){
+echo "error al conectar con el sitio web";
+}
+?>
+----------------------------------------------------------------------
+BUSCARDATOS.PHP
+<?php
+include 'conexion.php';
+$cedula=$_GET['cedula'];
+$consulta="select nombres,apellidos,cedula,provincia,direccion from datos where cedula ='&cedula'";
+$resultado=$conexion->query($consulta);
+while($fila=$resultado->fetch_array()){
+	$dato[]=array_map('utf8_encode',$fila);
+}
+echo json_encode($dato);
+$resultado->close();
+
+?>
+----------------------------------------------------------------------------
+BUSCARPRODUCTO.PHP
+<?php
+include 'conexion.php';
+$codigo=$_GET['codigo'];
+$consulta="select * from productos where codigo ='".$codigo."'";
+$resultado=$conexion->query($consulta);
+while($fila=$resultado->fetch_array()){
+	$producto[]=array_map('utf8_encode',$fila);
+}
+echo json_encode($producto);
+$resultado->close();
+
+?>
+----------------------------------------------------------------------------
+BORRARPRODUCTO.PHP
+<?php
+include 'conexion.php';
+
+$codigo=$_POST['codigo'];
+$nombre=$_POST['nombre'];
+$stock=$_POST['stock'];
+$precioCosto=$_POST['precioCosto'];
+$precioVenta=$_POST['precioVenta'];
+$ganancia=$_POST['ganancia'];
+
+$consulta="delete from productos('".$codigo."','".$nombre."','".$stock."','".$precioCosto."','".$precioVenta."','".$ganancia."')";
+mysqli_query($conexion,$consulta) or die(mysqli_error());
+mysqli_close($conexion);
+?>
+-------------------------------------------------------------------------------
+BORRARDATOS.PHP
+<?php
+include 'conexion.php';
+
+$nombre=$_POST['nombre'];
+$apellido=$_POST['apellido'];
+$cedula=$_POST['cedula'];
+$sexo=$_POST['sexo'];
+$pais=$_POST['pais'];
+$provincia=$_POST['provincia'];
+$direccion=$_POST['direccion'];
+
+$consulta="delete from datos('".$nombre."','".$apellido."','".$cedula."','".$sexo."','".$pais."','".$provinvia."','".$direccion."')";
+mysqli_query($conexion,$consulta) or die(mysqli_error());
+mysqli_close($conexion);
+?>
+
+------------------------------------------------------------------------------
+INSERTARDATOS.PHP
+<?php
+include 'conexion.php';
+
+$nombres=$_POST['nombres'];
+$apellidos=$_POST['apellidos'];
+$cedula=$_POST['cedula'];
+$sexo=$_POST['sexo'];
+$pais=$_POST['pais'];
+$provincia=$_POST['provincia'];
+$direccion=$_POST['direccion'];
+$consulta="insert into datos values('".$nombres."','".$apellidos."','".$cedula."','".$sexo."','".$pais."','".$provincia."','".$direccion."')";
+mysqli_query($conexion,$consulta) or die(mysqli_error());
+mysqli_close($conexion);
+?>
+----------------------------------------------------------------------
+INSERTARPRODUCTOS.PHP
+<?php
+include 'conexion.php';
+
+$codigo=$_POST['codigo'];
+$nombre=$_POST['nombre'];
+$stock=$_POST['stock'];
+$precioCosto=$_POST['precioCosto'];
+$precioVenta=$_POST['precioVenta'];
+$ganancia=$_POST['ganancia'];
+
+$consulta="insert into productos values('".$codigo."','".$nombre."','".$stock."','".$precioCosto."','".$precioVenta."','".$ganancia."')";
+mysqli_query($conexion,$consulta) or die(mysqli_error());
+mysqli_close($conexion);
+?>
+----------------------------------------------------------------------
+MODIFICARDATOS.PHP
+<?php
+include 'conexion.php';
+
+$nombre=$_POST['nombre'];
+$apellido=$_POST['apellido'];
+$cedula=$_POST['cedula'];
+$sexo=$_POST['sexo'];
+$pais=$_POST['pais'];
+$provinvia=$_POST['provincia'];
+$direccion=$_POST['direccion'];
+
+$consulta="update productos set datos('".$nombre."','".$apellido."','".$cedula."')";
+mysqli_query($conexion,$consulta) or die(mysqli_error());
+mysqli_close($conexion);
+?>
+------------------------------------------------------------------------
+MODIFICARPRODUCTOS.PHP
+<?php
+include 'conexion.php';
+
+$codigo=$_POST['codigo'];
+$nombre=$_POST['nombre'];
+$stock=$_POST['stock'];
+$precioCosto=$_POST['precioCosto'];
+$precioVenta=$_POST['precioVenta'];
+
+$consulta="update productos set productos('".$codigo."','".$nombre."','".$stock."')";
+mysqli_query($conexion,$consulta) or die(mysqli_error());
+mysqli_close($conexion);
+?>
+
+
+
+
+
+
+
